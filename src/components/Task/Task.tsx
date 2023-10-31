@@ -2,6 +2,7 @@ import {
   Button,
   CardActions,
   CardContent,
+  CardHeader,
   IconButton,
   Typography,
 } from '@mui/material';
@@ -10,50 +11,63 @@ import Card from '@mui/material/Card';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-export function Task() {
+interface TaskProps {
+  id: number;
+  title: string;
+  status: string;
+  description?: string;
+  responsibleFor: string;
+  startDate: Date;
+  deadline: Date;
+}
+
+export function Task({
+  id,
+  title,
+  description,
+  responsibleFor,
+  status,
+  startDate,
+  deadline,
+}: TaskProps) {
   return (
     <Draggable id="draggable">
       <Card sx={{ maxWidth: 275 }}>
-        <CardContent>
-          <Typography
-            sx={{ fontSize: 14 }}
-            color="text.secondary"
-            gutterBottom
-          >
-            Word of the Day
-          </Typography>
-          <Typography
-            variant="h5"
-            component="div"
-          >
-            benevolent
-          </Typography>
+        <CardHeader
+          title={title}
+          subheader={`№${id} ${status}`}
+        />
+        <CardContent sx={{ pb: 0, pt: 0 }}>
           <Typography
             sx={{ mb: 1.5 }}
             color="text.secondary"
           >
-            adjective
+            For {responsibleFor}
           </Typography>
-          <Typography variant="body2">
-            well meaning and kindly.
-            <br />
-            {'"a benevolent smile"'}
+          <Typography variant="body2">{description}</Typography>
+          <Typography variant="subtitle2">
+            Start Date: {startDate.toLocaleString()}
+          </Typography>
+          <Typography variant="subtitle2">
+            Deadline: {deadline.toLocaleString()}
           </Typography>
         </CardContent>
-        <CardActions>
-          <Button size="small">Learn More</Button>
-          <IconButton
-            aria-label="edit"
-            size="large"
-          >
-            <EditIcon fontSize="inherit" />
-          </IconButton>
-          <IconButton
-            aria-label="delete"
-            size="large"
-          >
-            <DeleteIcon fontSize="inherit" />
-          </IconButton>
+        <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button size="small">Add subtask</Button>
+          <div>
+            <IconButton
+              aria-label="edit"
+              size="large"
+            >
+              <EditIcon fontSize="inherit" />
+            </IconButton>
+            <IconButton
+              aria-label="delete"
+              size="large"
+            >
+              <DeleteIcon fontSize="inherit" />
+            </IconButton>
+          </div>
         </CardActions>
       </Card>
     </Draggable>
